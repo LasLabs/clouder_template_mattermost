@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 LasLabs Inc.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html). -->
+
+<odoo>
+
+    <record id="application_mattermost_data" model="clouder.application">
+        <field name="name">Mattermost Data</field>
+        <field name="code">data</field>
+        <field name="type_id" ref="application_type_mattermost" />
+        <field name="tag_ids" eval="[(4, [ref('clouder.tag_data')])]" />
+        <field name="default_image_id" ref="image_mattermost_data" />
+        <field name="sequence">1</field>
+        <field name="required" eval="True"/>
+    </record>
+
+    <record id="application_mattermost_exec" model="clouder.application">
+        <field name="name">Mattermost Exec</field>
+        <field name="code">exec</field>
+        <field name="type_id" ref="application_type_mattermost" />
+        <field name="tag_ids" eval="[(4, [ref('clouder.tag_exec')])]" />
+        <field name="default_image_id" ref="image_mattermost_exec" />
+        <field name="sequence">2</field>
+        <field name="required" eval="True"/>
+        <field name="update_strategy">auto</field>
+    </record>
+
+    <record id="application_mattermost" model="clouder.application">
+        <field name="name">Mattermost</field>
+        <field name="code">mattermost</field>
+        <field name="type_id" ref="application_type_mattermost" />
+        <field name="tag_ids" eval="[(4, [ref('application_tag_mattermost')])]"/>
+        <field name="template_ids"
+               eval="[(4, ref('clouder.application_template_base_www'))]"
+               />
+        <field name="child_ids"
+               eval="[(4, [ref('application_mattermost_data'),
+                           ref('application_mattermost_exec'),
+                           ])]"
+               />
+        <field name="sequence">1</field>
+        <field name="required" eval="True"/>
+    </record>
+
+</odoo>

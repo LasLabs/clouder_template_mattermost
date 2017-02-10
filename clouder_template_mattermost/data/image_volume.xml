@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2017 LasLabs Inc.
+     License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html). -->
+
+<odoo>
+
+    <record id="image_volume_mattermost_data" model="clouder.image.volume">
+        <field name="template_id" ref="image_template_mattermost_data" />
+        <field name="name">data</field>
+        <field name="localpath">/opt/mattermost/data</field>
+        <field name="user">mattermost</field>
+    </record>
+
+    <record id="image_volume_mattermost_etc" model="clouder.image.volume">
+        <field name="template_id" ref="image_template_mattermost_data" />
+        <field name="name">etc</field>
+        <field name="localpath">/opt/mattermost/config</field>
+        <field name="user">mattermost</field>
+    </record>
+
+    <record id="image_volume_mattermost_log" model="clouder.image.volume">
+        <field name="template_id" ref="image_template_mattermost_data" />
+        <field name="name">log</field>
+        <field name="localpath">/opt/mattermost/logs</field>
+        <field name="user">mattermost</field>
+    </record>
+
+</odoo>

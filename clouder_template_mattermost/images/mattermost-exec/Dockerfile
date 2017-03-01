@@ -10,38 +10,14 @@ RUN apk add --update $PACKAGES
 
 WORKDIR /tmp
 
-# Install glibc
-RUN apk --no-cache add ca-certificates openssl \
-    && wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub \
-    && apk --no-cache -X http://apkproxy.heroku.com/sgerrand/alpine-pkg-glibc add glibc glibc-bin
+RUN curl https://releases.mattermost.com/$MM_VERSION/mattermost-team-$MM_VERSION-linux-amd64.tar.gz | tar -xvz
 
-# Install Elasticsearch
-WORKDIR /opt
+EXPOSE 80
 
-RUN mkdir -p /opt \
-    && adduser -h /opt/elasticsearch -g elasticsearch -s /bin/bash -D elasticsearch
-
-RUN ln -s elasticsearch elasticsearch-$ES_VERSION
-USER elasticsearch
-RUN set -x \
-    && wget -O - "${ES_BASE}/elasticsearch-${ES_VERSION}.tar.gz" | tar -xz
-
-ENV PATH /opt/elasticsearch/bin:$PATH
-
-WORKDIR /opt/elasticsearch
-RUN set -ex \
-    && for path in \
-        ./data \
-        ./logs \
-        ./config \
-        ./config/scripts \
-    ; do \
-        mkdir -p "$path"; \
-        chown -R elasticsearch:elasticsearch "$path"; \
-    done
+VOLUME /opt/mattermost/data
 
 # Entrypoint
 COPY docker-entrypoint.sh /
 
-ENTRYPOINT ["/mattermost-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["mattermost"]
